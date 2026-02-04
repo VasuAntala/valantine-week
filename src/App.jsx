@@ -33,7 +33,7 @@ function App() {
               <Hero showButton={false} onStart={() => { }} />
 
               {/* Main Content Container */}
-              <div className="max-w-6xl mx-auto px-4 space-y-32 pb-32">
+              <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-20 sm:space-y-32 pb-20 sm:pb-32">
                 <div className="mt-20 text-center space-y-6">
                   <h2 className="text-3xl md:text-5xl font-display text-rose-600">Our Love Story</h2>
                   <p className="text-xl text-gray-600">A journey of beautiful moments...</p>

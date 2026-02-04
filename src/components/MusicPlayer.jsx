@@ -16,12 +16,12 @@ const MusicPlayer = () => {
     };
 
     return (
-        <div className="fixed bottom-8 left-8 z-50 flex flex-col items-start gap-4">
+        <div className="fixed bottom-4 left-4 md:bottom-8 md:left-8 z-50 flex flex-col items-start gap-3 md:gap-4">
             {/* Visible Video Player (Mini) */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="relative rounded-xl overflow-hidden shadow-2xl border-4 border-white bg-gray-900 w-48 md:w-56"
+                className="relative rounded-xl overflow-hidden shadow-2xl border-4 border-white bg-gray-900 w-32 md:w-56"
             >
                 <div className="aspect-video relative flex items-center justify-center">
                     {/* Placeholder for Audio-Only / Loading / Not Ready */}
@@ -65,7 +65,7 @@ const MusicPlayer = () => {
             {/* Vinyl Record Player UI */}
             <div className="relative group">
                 <motion.div
-                    className="relative w-32 h-32 md:w-40 md:h-40 cursor-pointer"
+                    className="relative w-24 h-24 md:w-40 md:h-40 cursor-pointer"
                     onClick={togglePlay}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}

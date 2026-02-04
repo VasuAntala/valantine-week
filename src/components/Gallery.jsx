@@ -15,11 +15,11 @@ const Gallery = () => {
 
             <div className="relative w-full overflow-hidden">
                 {/* Gradient Fade Edges */}
-                <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-pink-50 to-transparent z-10" />
-                <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-pink-50 to-transparent z-10" />
+                <div className="absolute left-0 top-0 bottom-0 w-8 md:w-20 bg-gradient-to-r from-pink-50 to-transparent z-10" />
+                <div className="absolute right-0 top-0 bottom-0 w-8 md:w-20 bg-gradient-to-l from-pink-50 to-transparent z-10" />
 
                 <motion.div
-                    className="flex gap-8 px-8 py-8 w-max"
+                    className="flex gap-4 md:gap-8 px-4 md:px-8 py-8 w-max"
                     animate={{ x: ["0%", "-50%"] }}
                     transition={{
                         repeat: Infinity,
@@ -32,7 +32,7 @@ const Gallery = () => {
                     {[...images, ...images].map((src, index) => (
                         <motion.div
                             key={index}
-                            className="relative w-[300px] h-[200px] md:w-[400px] md:h-[280px] shrink-0 rounded-lg overflow-hidden border-4 border-white shadow-lg bg-black cursor-pointer group"
+                            className="relative w-[220px] h-[150px] md:w-[400px] md:h-[280px] shrink-0 rounded-lg overflow-hidden border-2 md:border-4 border-white shadow-lg bg-black cursor-pointer group"
                             whileHover={{ scale: 1.1, zIndex: 10, rotate: 0 }}
                             initial={{ rotate: index % 2 === 0 ? 1 : -1 }}
                             transition={{ duration: 0.3 }}
@@ -44,15 +44,15 @@ const Gallery = () => {
                             />
 
                             {/* Film Strip Holes Decoration (Optional visual flair) */}
-                            <div className="absolute top-0 w-full h-4 bg-black/50 flex justify-between px-2 gap-2">
-                                {[...Array(10)].map((_, i) => <div key={i} className="w-2 h-2 bg-white/20 rounded-full my-1" />)}
+                            <div className="absolute top-0 w-full h-2 md:h-4 bg-black/50 flex justify-between px-2 gap-2">
+                                {[...Array(10)].map((_, i) => <div key={i} className="w-1 md:w-2 h-1 md:h-2 bg-white/20 rounded-full my-0.5 md:my-1" />)}
                             </div>
-                            <div className="absolute bottom-0 w-full h-4 bg-black/50 flex justify-between px-2 gap-2">
-                                {[...Array(10)].map((_, i) => <div key={i} className="w-2 h-2 bg-white/20 rounded-full my-1" />)}
+                            <div className="absolute bottom-0 w-full h-2 md:h-4 bg-black/50 flex justify-between px-2 gap-2">
+                                {[...Array(10)].map((_, i) => <div key={i} className="w-1 md:w-2 h-1 md:h-2 bg-white/20 rounded-full my-0.5 md:my-1" />)}
                             </div>
 
                             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <span className="text-white font-display text-2xl drop-shadow-md">Moment #{index % images.length + 1}</span>
+                                <span className="text-white font-display text-xl md:text-2xl drop-shadow-md">Moment #{index % images.length + 1}</span>
                             </div>
                         </motion.div>
                     ))}

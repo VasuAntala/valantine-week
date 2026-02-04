@@ -34,9 +34,9 @@ const Jar = () => {
                 whileTap={{ scale: 0.95 }}
                 onClick={openJar}
             >
-                <div className="w-48 h-64 bg-white/40 border-4 border-rose-300 rounded-[3rem] rounded-t-lg relative flex items-end justify-center pb-4 shadow-xl backdrop-blur-sm overflow-hidden">
+                <div className="w-40 h-56 md:w-48 md:h-64 bg-white/40 border-4 border-rose-300 rounded-[3rem] rounded-t-lg relative flex items-end justify-center pb-4 shadow-xl backdrop-blur-sm overflow-hidden">
                     {/* Lid */}
-                    <div className="absolute -top-4 w-52 h-6 bg-rose-400 rounded-lg shadow-md" />
+                    <div className="absolute -top-4 w-44 md:w-52 h-6 bg-rose-400 rounded-lg shadow-md" />
 
                     {/* Hearts inside */}
                     <div className="absolute inset-0 flex items-end justify-center p-4 flex-wrap content-end gap-2 opacity-80">

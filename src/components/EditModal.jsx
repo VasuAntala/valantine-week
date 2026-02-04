@@ -25,22 +25,22 @@ const EditModal = ({ isOpen, onClose }) => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                className="bg-white w-full max-w-4xl h-[80vh] rounded-2xl shadow-2xl flex overflow-hidden border border-rose-100"
+                className="bg-white w-full max-w-4xl h-[90vh] md:h-[80vh] rounded-2xl shadow-2xl flex flex-col md:flex-row overflow-hidden border border-rose-100 m-4"
             >
                 {/* Sidebar / Tabs */}
-                <div className="w-1/4 bg-rose-50 border-r border-rose-100 p-4 flex flex-col gap-2 overflow-y-auto">
-                    <h2 className="text-xl font-display text-rose-600 mb-6 px-2">Customize 💖</h2>
+                <div className="w-full md:w-1/4 bg-rose-50 border-b md:border-b-0 md:border-r border-rose-100 p-2 md:p-4 flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-y-auto shrink-0">
+                    <h2 className="hidden md:block text-xl font-display text-rose-600 mb-6 px-2">Customize 💖</h2>
                     {tabs.map(tab => (
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
-                            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors ${activeTab === tab.id
+                            className={`flex items-center justify-center md:justify-start gap-2 md:gap-3 px-3 py-2 md:px-4 md:py-3 rounded-xl text-center md:text-left transition-colors whitespace-nowrap md:whitespace-normal ${activeTab === tab.id
                                 ? 'bg-rose-500 text-white shadow-md'
                                 : 'text-gray-600 hover:bg-rose-100'
                                 }`}
                         >
                             {tab.icon}
-                            <span className="font-medium">{tab.label}</span>
+                            <span className="text-sm md:text-base font-medium">{tab.label}</span>
                         </button>
                     ))}
                 </div>

@@ -57,9 +57,9 @@ const Hero = ({ text, onStart, showButton = true }) => {
                 ))}
             </div>
 
-            <div className="z-10 text-center space-y-8">
+            <div className="z-10 text-center space-y-4 md:space-y-8 px-4">
                 <motion.h1
-                    className="text-5xl md:text-7xl font-display text-rose-600 drop-shadow-sm"
+                    className="text-4xl sm:text-5xl md:text-7xl font-display text-rose-600 drop-shadow-sm"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                 >
@@ -69,7 +69,7 @@ const Hero = ({ text, onStart, showButton = true }) => {
 
                 {!isStarted && showButton && (
                     <motion.button
-                        className="px-8 py-3 bg-rose-500 text-white rounded-full text-xl font-semibold shadow-lg hover:bg-rose-600 transition-colors flex items-center gap-2 mx-auto"
+                        className="px-6 py-2 md:px-8 md:py-3 bg-rose-500 text-white rounded-full text-lg md:text-xl font-semibold shadow-lg hover:bg-rose-600 transition-colors flex items-center gap-2 mx-auto"
                         onClick={handleStart}
                         initial={{ scale: 0, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
@@ -77,7 +77,7 @@ const Hero = ({ text, onStart, showButton = true }) => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        <Heart className="w-6 h-6 animate-bounce" fill="currentColor" />
+                        <Heart className="w-5 h-5 md:w-6 md:h-6 animate-bounce" fill="currentColor" />
                         Enter Our World
                     </motion.button>
                 )}
