@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Hero from './components/Hero';
 // We will import other components as we build them
 import Timeline from './components/Timeline';
@@ -6,17 +6,53 @@ import Gallery from './components/Gallery';
 import Jar from './components/Jar';
 import ValentineQuestion from './components/ValentineQuestion';
 import Timer from './components/Timer';
-import MusicPlayer from './components/MusicPlayer';
+// import MusicPlayer from './components/MusicPlayer';
 import CustomCursor from './components/CustomCursor';
 import ParallaxBackground from './components/ParallaxBackground';
 import { ConfigProvider } from './context/ConfigContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import EditButton from './components/EditButton';
+import ThinkingOfYou from './components/ThinkingOfYou';
+import PresenceIndicator from './components/PresenceIndicator';
+import NotificationToast from './components/NotificationToast';
+import Login from './components/Login';
+import socket from './services/socket';
 
 
 import ErrorBoundary from './components/ErrorBoundary';
 
-function App() {
+function MainApp() {
+  const { user, login, isAuthenticated, loading } = useAuth();
   const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    // Connect to Socket.io server
+    socket.connect();
+
+    // Use the authenticated user's role
+    const userType = user?.role || 'recipient';
+    socket.emit('user:join', userType);
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [isAuthenticated, user]);
+
+
+  // Show login screen if not authenticated
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-pink-50">
+        <div className="text-2xl text-rose-500">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Login onLogin={login} />;
+  }
 
   return (
     <ConfigProvider>
@@ -25,6 +61,9 @@ function App() {
           <CustomCursor />
           <ParallaxBackground />
           <EditButton />
+          <PresenceIndicator />
+          <NotificationToast />
+          <ThinkingOfYou />
 
           {!started ? (
             <Hero onStart={() => setStarted(true)} />
@@ -57,4 +96,13 @@ function App() {
   );
 }
 
+function App() {
+  return (
+    <AuthProvider>
+      <MainApp />
+    </AuthProvider>
+  );
+}
+
 export default App;
+

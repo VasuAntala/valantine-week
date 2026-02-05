@@ -1,0 +1,31 @@
+{
+    "name": "valentine-backend",
+    "version": "1.0.0",
+    "description": "Backend for Valentine's Day app with real-time features",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js",
+        "setup-users": "node scripts/createUsers.js"
+    },
+    "keywords": [
+        "valentine",
+        "socket.io",
+        "express"
+    ],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "jsonwebtoken": "^9.0.3",
+        "mongoose": "^8.0.3",
+        "socket.io": "^4.6.1"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.2"
+    }
+}

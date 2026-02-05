@@ -13,6 +13,7 @@ const EditModal = ({ isOpen, onClose }) => {
     const tabs = [
         { id: 'general', label: 'General', icon: <Heart size={16} /> },
         { id: 'timeline', label: 'Timeline', icon: <Calendar size={16} /> },
+        { id: 'music', label: 'Music', icon: <Music size={16} /> },
         { id: 'gallery', label: 'Gallery', icon: <ImageIcon size={16} /> },
         { id: 'reasons', label: 'Reasons', icon: <Heart size={16} /> },
     ];

@@ -1,19 +1,74 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Music, Pause, Play, Disc } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ReactPlayer from 'react-player';
 import { useConfig } from '../context/ConfigContext';
+import socket from '../services/socket';
 
 const MusicPlayer = () => {
     const { config } = useConfig();
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false); // Always start paused
     const [isReady, setIsReady] = useState(false);
+    const playerRef = useRef(null);
+    const [isSyncing, setIsSyncing] = useState(false);
+
+    useEffect(() => {
+        // Listen for remote play events
+        socket.on('player:play', (data) => {
+            console.log('🎵 Remote play command received at', data.playedSeconds);
+            setIsSyncing(true);
+            if (playerRef.current) {
+                playerRef.current.seekTo(data.playedSeconds, 'seconds');
+            }
+            setIsPlaying(true);
+            setTimeout(() => setIsSyncing(false), 100);
+        });
+
+        // Listen for remote pause events
+        socket.on('player:pause', (data) => {
+            console.log('⏸️  Remote pause command received at', data.playedSeconds);
+            setIsSyncing(true);
+            if (playerRef.current) {
+                playerRef.current.seekTo(data.playedSeconds, 'seconds');
+            }
+            setIsPlaying(false);
+            setTimeout(() => setIsSyncing(false), 100);
+        });
+
+        // Listen for remote seek events
+        socket.on('player:seek', (data) => {
+            console.log('⏩ Remote seek to', data.playedSeconds);
+            setIsSyncing(true);
+            if (playerRef.current) {
+                playerRef.current.seekTo(data.playedSeconds, 'seconds');
+            }
+            setTimeout(() => setIsSyncing(false), 100);
+        });
+
+        return () => {
+            socket.off('player:play');
+            socket.off('player:pause');
+            socket.off('player:seek');
+        };
+    }, []);
 
     const togglePlay = () => {
-        if (isReady) {
-            setIsPlaying(!isPlaying);
+        if (!isReady || isSyncing) return;
+
+        const newPlayingState = !isPlaying;
+        setIsPlaying(newPlayingState);
+
+        // Get current playback position
+        const currentTime = playerRef.current?.getCurrentTime() || 0;
+
+        // Emit to other users
+        if (newPlayingState) {
+            socket.emit('player:play', { playedSeconds: currentTime });
+        } else {
+            socket.emit('player:pause', { playedSeconds: currentTime });
         }
     };
+
 
     return (
         <div className="fixed bottom-4 left-4 md:bottom-8 md:left-8 z-50 flex flex-col items-start gap-3 md:gap-4">
@@ -35,6 +90,7 @@ const MusicPlayer = () => {
                     )}
 
                     <ReactPlayer
+                        ref={playerRef}
                         url={config.musicUrl}
                         playing={isPlaying}
                         loop={true}
@@ -43,8 +99,12 @@ const MusicPlayer = () => {
                         height="100%"
                         style={{ position: 'relative', zIndex: 10 }}
                         onReady={() => setIsReady(true)}
-                        onPlay={() => setIsPlaying(true)}
-                        onPause={() => setIsPlaying(false)}
+                        onPlay={() => {
+                            if (!isSyncing) setIsPlaying(true);
+                        }}
+                        onPause={() => {
+                            if (!isSyncing) setIsPlaying(false);
+                        }}
                         onError={(e) => {
                             console.log("Player Error suppressed:", e);
                             setIsPlaying(false);
@@ -54,7 +114,6 @@ const MusicPlayer = () => {
                                 playerVars: { showinfo: 0, controls: 1, modestbranding: 1 }
                             },
                             file: {
-                                forceAudio: true,
                                 attributes: { preload: 'auto' }
                             }
                         }}
