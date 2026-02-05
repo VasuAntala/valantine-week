@@ -2,15 +2,33 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import socket from '../services/socket';
 
 const ValentineQuestion = () => {
     const [noButtonPos, setNoButtonPos] = useState({ x: 0, y: 0 });
     const [yesPressed, setYesPressed] = useState(false);
+    const [noTextIndex, setNoTextIndex] = useState(0);
+
+    const noTexts = [
+        "NO",
+        "No Please",
+        "Are you sure?",
+        "Think again!",
+        "Really?",
+        "Don't do this",
+        "Pleeease",
+        "Maybe reconsider?",
+        "I'm serious",
+        "Final answer?",
+        "Come on...",
+        "Pretty please?"
+    ];
 
     const moveNoButton = () => {
         const x = Math.random() * (window.innerWidth - 100) - (window.innerWidth / 2 - 50);
         const y = Math.random() * (window.innerHeight - 100) - (window.innerHeight / 2 - 50);
         setNoButtonPos({ x, y });
+        setNoTextIndex((prev) => (prev + 1) % noTexts.length);
     };
 
     const handleYes = () => {
@@ -20,6 +38,9 @@ const ValentineQuestion = () => {
             spread: 60,
             colors: ['#ff3366', '#ff99cc', '#ffffff']
         });
+
+        // Emit Socket.io event for real-time notification
+        socket.emit('notification:yes-clicked');
     };
 
     return (
@@ -50,7 +71,7 @@ const ValentineQuestion = () => {
                             onHoverStart={moveNoButton}
                             onClick={moveNoButton}
                         >
-                            NO
+                            {noTexts[noTextIndex]}
                         </motion.button>
                     </div>
                 )}
