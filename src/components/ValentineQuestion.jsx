@@ -76,15 +76,53 @@ const ValentineQuestion = () => {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-2xl text-gray-700"
+                        className="text-2xl text-gray-700 space-y-6"
                     >
                         <p>Best decision ever! 🥰</p>
+
+                        {/* Viral Cute Pandas Image */}
                         <motion.div
-                            animate={{ scale: [1, 1.2, 1] }}
-                            transition={{ repeat: Infinity, duration: 2 }}
-                            className="mt-4 flex justify-center"
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.2 }}
+                            className="relative flex justify-center"
                         >
-                            <Heart size={48} className="text-rose-500 fill-rose-500" />
+                            <img
+                                src="https://media1.tenor.com/m/fFpVFqD_4esAAAAC/peluk.gif"
+                                alt="Cute Hugging GIF"
+                                className="rounded-3xl shadow-2xl max-w-md w-full border-4 border-pink-300"
+                            />
+
+                            {/* Floating hearts around the image */}
+                            <motion.div
+                                animate={{
+                                    y: [0, -20, 0],
+                                    x: [0, 10, 0]
+                                }}
+                                transition={{ repeat: Infinity, duration: 3 }}
+                                className="absolute -top-8 -right-8"
+                            >
+                                <Heart size={48} className="text-rose-500 fill-rose-500" />
+                            </motion.div>
+                            <motion.div
+                                animate={{
+                                    y: [0, -15, 0],
+                                    x: [0, -10, 0]
+                                }}
+                                transition={{ repeat: Infinity, duration: 2.5, delay: 0.5 }}
+                                className="absolute -top-4 -left-8"
+                            >
+                                <Heart size={36} className="text-pink-400 fill-pink-400" />
+                            </motion.div>
+                            <motion.div
+                                animate={{
+                                    y: [0, -10, 0],
+                                }}
+                                transition={{ repeat: Infinity, duration: 2, delay: 1 }}
+                                className="absolute -bottom-6 right-12"
+                            >
+                                <Heart size={40} className="text-rose-400 fill-rose-400" />
+                            </motion.div>
                         </motion.div>
                     </motion.div>
                 )}
