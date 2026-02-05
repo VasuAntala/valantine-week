@@ -13,10 +13,6 @@ import { ConfigProvider } from './context/ConfigContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import EditButton from './components/EditButton';
 import ThinkingOfYou from './components/ThinkingOfYou';
-import PresenceIndicator from './components/PresenceIndicator';
-import NotificationToast from './components/NotificationToast';
-import Login from './components/Login';
-import socket from './services/socket';
 
 
 import ErrorBoundary from './components/ErrorBoundary';
@@ -25,20 +21,8 @@ function MainApp() {
   const { user, login, isAuthenticated, loading } = useAuth();
   const [started, setStarted] = useState(false);
 
-  useEffect(() => {
-    if (!isAuthenticated) return;
-
-    // Connect to Socket.io server
-    socket.connect();
-
-    // Use the authenticated user's role
-    const userType = user?.role || 'recipient';
-    socket.emit('user:join', userType);
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [isAuthenticated, user]);
+  // Authentication is now handled locally via localStorage
+  // No backend connection needed
 
 
   // Show login screen if not authenticated
@@ -50,10 +34,6 @@ function MainApp() {
     );
   }
 
-  if (!isAuthenticated) {
-    return <Login onLogin={login} />;
-  }
-
   return (
     <ConfigProvider>
       <ErrorBoundary>
@@ -61,8 +41,6 @@ function MainApp() {
           <CustomCursor />
           <ParallaxBackground />
           <EditButton />
-          <PresenceIndicator />
-          <NotificationToast />
           <ThinkingOfYou />
 
           {!started ? (

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import socket from '../services/socket';
 
 const ValentineQuestion = () => {
     const [noButtonPos, setNoButtonPos] = useState({ x: 0, y: 0 });
@@ -38,9 +37,6 @@ const ValentineQuestion = () => {
             spread: 60,
             colors: ['#ff3366', '#ff99cc', '#ffffff']
         });
-
-        // Emit Socket.io event for real-time notification
-        socket.emit('notification:yes-clicked');
     };
 
     return (

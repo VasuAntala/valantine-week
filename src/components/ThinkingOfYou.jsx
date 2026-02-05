@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Heart, Sparkles } from 'lucide-react';
-import socket from '../services/socket';
 
 const ThinkingOfYou = () => {
     const [isSending, setIsSending] = React.useState(false);
@@ -9,13 +8,6 @@ const ThinkingOfYou = () => {
 
     const handleClick = () => {
         setIsSending(true);
-
-        // Emit notification through Socket.io
-        const userType = localStorage.getItem('userType') || 'someone';
-        socket.emit('notification:thinking', {
-            message: 'Someone is thinking of you right now! 💖',
-            userType
-        });
 
         setTimeout(() => {
             setIsSending(false);

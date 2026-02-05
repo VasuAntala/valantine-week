@@ -13,33 +13,30 @@ const Login = ({ onLogin }) => {
         setError('');
         setLoading(true);
 
-        try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'}/api/auth/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
-            });
+        // Simulate loading delay for better UX
+        setTimeout(() => {
+            // Hardcoded credentials (no backend needed)
+            const validCredentials = {
+                'admin': { username: 'admin', role: 'admin', name: 'Admin' },
+                'valentine': { username: 'valentine', role: 'recipient', name: 'Valentine' }
+            };
 
-            const data = await response.json();
+            // Check if username exists and password is not empty
+            if (validCredentials[username] && password) {
+                const user = validCredentials[username];
 
-            if (data.success) {
-                // Save token and user info
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
-                localStorage.setItem('userType', data.user.role);
+                // Save to localStorage
+                localStorage.setItem('token', 'local-token-' + Date.now());
+                localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('userType', user.role);
 
-                onLogin(data.user);
+                onLogin(user);
             } else {
-                setError(data.message || 'Login failed');
+                setError('Invalid username or password');
             }
-        } catch (err) {
-            setError('Unable to connect to server');
-            console.error('Login error:', err);
-        } finally {
+
             setLoading(false);
-        }
+        }, 500);
     };
 
     return (
@@ -167,6 +164,8 @@ const Login = ({ onLogin }) => {
                 <div className="mt-6 p-4 bg-pink-50 rounded-xl">
                     <p className="text-xs text-gray-600 text-center">
                         <strong>Admin:</strong> username: admin | <strong>Valentine:</strong> username: valentine
+                        <br />
+                        <span className="text-gray-500">Use any password</span>
                     </p>
                 </div>
             </motion.div>
